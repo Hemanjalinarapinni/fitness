@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dharmis Fitness Center</title>
+  <style>
+    :root{ --accent:#ff6b6b; --muted:#6b7280; --bg:#f7fafc; font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:#111}
+    header{background:#fff;border-bottom:1px solid #e6eaf0;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:48px;height:48px;border-radius:8px;background:linear-gradient(135deg,var(--accent),#ff9a9a);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px}
+    nav a{margin-left:12px;color:var(--muted);text-decoration:none;font-weight:600}
+    .container{max-width:1100px;margin:28px auto;padding:0 18px}
+    .grid{display:grid;grid-template-columns:1fr 380px;gap:22px}
+    .card{background:#fff;padding:18px;border-radius:12px;box-shadow:0 6px 18px rgba(16,24,40,0.04)}
+    h1{margin:0;font-size:22px}
+    p.lead{color:var(--muted);margin:8px 0 16px}
+    .hero{display:flex;align-items:center;gap:20px}
+    .hero .stats{display:flex;gap:12px}
+    .stat{background:#fff;padding:10px 14px;border-radius:10px;text-align:center}
+    form label{display:block;margin:8px 0 6px;font-weight:600}
+    input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6eaf0}
+    button{background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer}
+    .small{font-size:13px;color:var(--muted)}
+    table{width:100%;border-collapse:collapse;margin-top:12px}
+    th,td{padding:10px;border-bottom:1px solid #f1f5f9;text-align:left}
+    .actions button{margin-right:6px}
+    .searchRow{display:flex;gap:8px;margin-bottom:8px}
+    @media(max-width:900px){.grid{grid-template-columns:1fr;}.hero{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">D</div>
+      <div>
+        <div style="font-weight:800">Dharmis Fitness</div>
+        <div class="small">Strength • Cardio • Wellness</div>
+      </div>
+    </div>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#join">Join</a>
+      <a href="#members">Members</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="grid">
+      <div>
+        <div class="card hero" id="home">
+          <div style="flex:1">
+            <h1>Welcome to Dharmis Fitness</h1>
+            <p class="lead">Local fitness center offering personalized training, group classes and flexible memberships. Use this web app to register members, manage their details, and search the database.</p>
+            <div class="stats">
+              <div class="stat">
+                <div style="font-weight:800;font-size:18px" id="totalMembers">0</div>
+                <div class="small">Members</div>
+              </div>
+              <div class="stat">
+                <div style="font-weight:800;font-size:18px" id="activeMembers">0</div>
+                <div class="small">Active</div>
+              </div>
+            </div>
+          </div>
+          <div style="width:200px;text-align:center">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='120'%3E%3Crect fill='%23ff9a9a' width='100%25' height='100%25' rx='12'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-size='20' fill='white'%3ED%3C/text%3E%3C/svg%3E" alt="logo" style="width:100%;border-radius:8px;" />
+          </div>
+        </div>
+
+        <div class="card" id="join" style="margin-top:18px">
+          <h2 style="font-size:18px;margin-bottom:6px">New Member Registration</h2>
+          <p class="small">Fill details below and click "Add Member". Data is stored locally in your browser (localStorage).</p>
+          <form id="memberForm">
+            <label for="name">Full name</label>
+            <input id="name" required placeholder="e.g. Sneha Sharma" />
+
+            <label for="age">Age</label>
+            <input id="age" type="number" min="10" max="100" required />
+
+            <label for="phone">Phone</label>
+            <input id="phone" required placeholder="+91 98xxxx...." />
+
+            <label for="membership">Membership type</label>
+            <select id="membership">
+              <option value="monthly">Monthly</option>
+              <option value="quarterly">Quarterly</option>
+              <option value="yearly">Yearly</option>
+              <option value="dropin">Drop-in</option>
+            </select>
+
+            <label for="notes">Notes (health, goals)</label>
+            <textarea id="notes" rows="3" placeholder="Optional"></textarea>
+
+            <div style="display:flex;gap:8px;margin-top:10px">
+              <button type="submit">Add Member</button>
+              <button type="button" id="clearAll" style="background:#e6eaf0;color:#111">Clear All</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card" id="members" style="margin-top:18px">
+          <h2 style="font-size:18px;margin-bottom:6px">Members</h2>
+          <div class="searchRow">
+            <input id="search" placeholder="Search by name or phone" />
+            <select id="filterMembership">
+              <option value="all">All memberships</option>
+              <option value="monthly">Monthly</option>
+              <option value="quarterly">Quarterly</option>
+              <option value="yearly">Yearly</option>
+              <option value="dropin">Drop-in</option>
+            </select>
+            <button id="exportCsv" style="background:#111;color:#fff">Export CSV</button>
+          </div>
+
+          <table id="membersTable">
+            <thead>
+              <tr><th>Name</th><th>Age</th><th>Phone</th><th>Membership</th><th>Notes</th><th>Actions</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <aside>
+        <div class="card">
+          <h3 style="margin-top:0">Quick actions</h3>
+          <p class="small">Use these to manage members quickly.</p>
+          <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+            <button id="showActive">Show Active Members</button>
+            <button id="showAll" style="background:#fff;color:#111;border:1px solid #e6eaf0">Show All</button>
+            <button id="importSample" style="background:#fff;color:#111;border:1px solid #e6eaf0">Load Sample Data</button>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:18px" id="contact">
+          <h3 style="margin-top:0">Contact</h3>
+          <p class="small">Dharmis Fitness<br/>123 Wellness Road<br/>City, State</p>
+          <p class="small">Phone: +91 98xxxxxxx</p>
+          <p class="small">Email: hello@dharmisfitness.example</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    // Simple client-side "web application" for Dharmis Fitness
+    const STORAGE_KEY = 'dharmis_members_v1'
+    const form = document.getElementById('memberForm')
+    const membersTableBody = document.querySelector('#membersTable tbody')
+    const totalMembersEl = document.getElementById('totalMembers')
+    const activeMembersEl = document.getElementById('activeMembers')
+    const searchInput = document.getElementById('search')
+    const filterSelect = document.getElementById('filterMembership')
+
+    let members = loadMembers()
+
+    function saveMembers(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(members))
+      render()
+    }
+
+    function loadMembers(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY)
+        return raw ? JSON.parse(raw) : []
+      }catch(e){
+        console.error('load error', e)
+        return []
+      }
+    }
+
+    function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+
+    function addMember(data){
+      members.push({...data,id:uid(),joined:new Date().toISOString(),active:true})
+      saveMembers()
+    }
+
+    function deleteMember(id){
+      if(!confirm('Delete this member?')) return
+      members = members.filter(m=>m.id!==id)
+      saveMembers()
+    }
+
+    function toggleActive(id){
+      members = members.map(m=> m.id===id ? {...m,active:!m.active} : m)
+      saveMembers()
+    }
+
+    function updateMember(id, patch){
+      members = members.map(m=> m.id===id ? {...m,...patch} : m)
+      saveMembers()
+    }
+
+    function render(){
+      // stats
+      totalMembersEl.textContent = members.length
+      activeMembersEl.textContent = members.filter(m=>m.active).length
+
+      // table
+      const q = (searchInput.value||'').toLowerCase()
+      const filter = filterSelect.value
+      const rows = members.filter(m=>{
+        if(filter!=='all' && m.membership!==filter) return false
+        if(!q) return true
+        return m.name.toLowerCase().includes(q) || (m.phone||'').toLowerCase().includes(q)
+      })
+
+      membersTableBody.innerHTML = ''
+      if(rows.length===0){
+        membersTableBody.innerHTML = '<tr><td colspan="6" class="small">No members found.</td></tr>'
+        return
+      }
+
+      rows.forEach(m=>{
+        const tr = document.createElement('tr')
+        tr.innerHTML = `
+          <td>${escapeHtml(m.name)} ${m.active?'<span class="small" style="color:green">●</span>':''}</td>
+          <td>${m.age||''}</td>
+          <td>${escapeHtml(m.phone||'')}</td>
+          <td>${m.membership}</td>
+          <td>${escapeHtml(m.notes||'')}</td>
+          <td class="actions">
+            <button onclick="editMember('${m.id}')">Edit</button>
+            <button onclick="toggleActive('${m.id}')">${m.active?'Deactivate':'Activate'}</button>
+            <button onclick="deleteMember('${m.id}')" style="background:#ffb4b4">Delete</button>
+          </td>
+        `
+        membersTableBody.appendChild(tr)
+      })
+    }
+
+    function escapeHtml(str){
+      return (str||'').replace(/[&<>\"]/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]))
+    }
+
+    // wire up global functions used in inline handlers
+    window.deleteMember = function(id){ deleteMember(id) }
+    window.toggleActive = function(id){ toggleActive(id) }
+    window.editMember = function(id){
+      const m = members.find(x=>x.id===id)
+      if(!m) return alert('Member not found')
+      // fill form for edit
+      document.getElementById('name').value = m.name
+      document.getElementById('age').value = m.age
+      document.getElementById('phone').value = m.phone
+      document.getElementById('membership').value = m.membership
+      document.getElementById('notes').value = m.notes
+      // set a temporary editing marker
+      form.dataset.editing = id
+      window.scrollTo({top:0,behavior:'smooth'})
+    }
+
+    form.addEventListener('submit', e=>{
+      e.preventDefault()
+      const data = {
+        name: document.getElementById('name').value.trim(),
+        age: Number(document.getElementById('age').value),
+        phone: document.getElementById('phone').value.trim(),
+        membership: document.getElementById('membership').value,
+        notes: document.getElementById('notes').value.trim()
+      }
+      const editingId = form.dataset.editing
+      if(editingId){
+        updateMember(editingId,data)
+        delete form.dataset.editing
+        alert('Member updated')
+      }else{
+        addMember(data)
+        alert('Member added')
+      }
+      form.reset()
+    })
+
+    document.getElementById('clearAll').addEventListener('click', ()=>{
+      if(!confirm('Clear all members from local storage?')) return
+      members = []
+      saveMembers()
+    })
+
+    searchInput.addEventListener('input', render)
+    filterSelect.addEventListener('change', render)
+
+    document.getElementById('showActive').addEventListener('click', ()=>{
+      filterSelect.value = 'all'
+      searchInput.value = ''
+      members = members.map(m=>m) // noop but keeps state
+      // temporarily show only active by injecting a quick filter
+      membersTableBody.innerHTML = ''
+      const rows = members.filter(m=>m.active)
+      if(rows.length===0) membersTableBody.innerHTML = '<tr><td colspan="6" class="small">No active members.</td></tr>'
+      else render()
+    })
+
+    document.getElementById('showAll').addEventListener('click', ()=>{ searchInput.value=''; filterSelect.value='all'; render() })
+
+    document.getElementById('importSample').addEventListener('click', ()=>{
+      const sample = [
+        {name:'Aarti Singh',age:28,phone:'+91 987650001',membership:'monthly',notes:'Weight loss',id:uid(),joined:new Date().toISOString(),active:true},
+        {name:'Rohit Patel',age:34,phone:'+91 987650002',membership:'yearly',notes:'Strength training',id:uid(),joined:new Date().toISOString(),active:true},
+        {name:'Meera Joshi',age:22,phone:'+91 987650003',membership:'quarterly',notes:'Yoga practice',id:uid(),joined:new Date().toISOString(),active:true}
+      ]
+      members = members.concat(sample)
+      saveMembers()
+    })
+
+    document.getElementById('exportCsv').addEventListener('click', ()=>{
+      if(members.length===0) return alert('No members to export')
+      const rows = [['Name','Age','Phone','Membership','Notes','Joined','Active']]
+      members.forEach(m=> rows.push([m.name,m.age,m.phone,m.membership,m.notes,m.joined,m.active]))
+      const csv = rows.map(r=> r.map(cell=> '"'+String(cell||'').replace(/"/g,'""')+'"').join(',')).join('\n')
+      const blob = new Blob([csv],{type:'text/csv'})
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url; a.download = 'dharmis_members.csv'
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url)
+    })
+
+    // initial render
+    render()
+  </script>
+</body>
+</html>
+file:///C:/Users/Krishna/Desktop/fitness.html
